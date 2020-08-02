@@ -3,7 +3,8 @@
 require_once __DIR__.'/../vendor/autoload.php';
 try
 {
-    (new Dotenv\Dotenv(__DIR__.'/../'))->load();
+    $dotenv = Dotenv\Dotenv::create(dirname(__DIR__), '.env');
+    $dotenv->load();
 }
 catch (Dotenv\Exception\InvalidPathException $ignored) { }
 (new Laravel\Lumen\Bootstrap\LoadEnvironmentVariables(
