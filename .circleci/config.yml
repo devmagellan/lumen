@@ -5,6 +5,8 @@
 version: 2
 jobs:
   build:
+    working_directory: ~/build
+
     docker:
       # Specify the version you desire here
       - image: circleci/php:7.2.32-stretch-browsers-legacy
@@ -32,6 +34,7 @@ jobs:
         networks:
            - wgtcrm
 
+      - image: gradientco/node-elastic-beanstalk:7.10.0
       # Specify service dependencies here if necessary
       # CircleCI maintains a library of pre-built images
       # documented at https://circleci.com/docs/2.0/circleci-images/
@@ -75,3 +78,15 @@ jobs:
       #- run: ./vendor/bin/phpunit
       #- run: ./vendor/bin/codecept build
       #- run: ./vendor/bin/codecept run
+
+      #- run:
+         #name: Run tests
+         #command: yarn test
+      - run:
+          name: Setup AWS credentials
+          command: |
+            mkdir ~/.aws && printf "[profile eb-cli]\naws_access_key_id = ${AWS_ACCESS_KEY_ID}\naws_secret_access_key = ${AWS_SECRET_ACCESS_KEY}" > ~/.aws/config
+      - deploy:
+          name: Deploy to Elastic Beanstalk
+          command: |
+            eb deploy environment-name
