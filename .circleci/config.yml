@@ -53,7 +53,7 @@ jobs:
       - run: sudo docker-php-ext-install zip bcmath pdo_mysql
       - run: sudo apt-get install mysql-client
       - run: sudo composer self-update
-      - run: sudp apt install telnet
+      - run: sudo apt install telnet
       - run:
           name: Install pip
           command: |
