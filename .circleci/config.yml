@@ -98,8 +98,9 @@ jobs:
           #name: Deploy to Elastic Beanstalk
           #command: |
             #eb deploy Wgt-env
+                     #mkdir ~/.aws
       - run: |
-           mkdir ~/.aws
+
            touch ~/.aws/config
            chmod 600 ~/.aws/config
            echo "[profile eb-cli]" > ~/.aws/config
