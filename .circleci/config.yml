@@ -97,4 +97,4 @@ jobs:
       - deploy:
           name: Deploy to Elastic Beanstalk
           command: |
-            eb deploy Wgt-env
+            eb deploy --profile default
