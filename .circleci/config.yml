@@ -41,6 +41,7 @@ jobs:
       - run: sudo docker-php-ext-configure pdo_mysql --with-pdo-mysql=mysqlnd
       - run: sudo docker-php-ext-install zip bcmath pdo_mysql
       - run: sudo apt-get install mysql-client
+      - run: sudo composer self-update
 
       # Download and cache dependencies
       - restore_cache:
