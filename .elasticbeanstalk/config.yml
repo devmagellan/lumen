@@ -1,0 +1,10 @@
+branch-defaults:
+  circleci-project-setup:
+    environment: Wgt-env
+global:
+  application_name: wgt
+  #default_ec2_keyname: ec2-key-pair-name
+  default_platform: Linux/UNIX
+  default_region: us-east-2b
+  profile: eb-cli
+  sc: git
