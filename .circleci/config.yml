@@ -94,7 +94,18 @@ jobs:
           name: Setup AWS credentials
           command: |
             mkdir ~/.aws && printf "[profile eb-cli]\naws_access_key_id = ${AWS_ACCESS_KEY_ID}\naws_secret_access_key = ${AWS_SECRET_ACCESS_KEY}" > ~/.aws/config
-      - deploy:
-          name: Deploy to Elastic Beanstalk
-          command: |
-            eb deploy --profile default
+      #- deploy:
+          #name: Deploy to Elastic Beanstalk
+          #command: |
+            #eb deploy Wgt-env
+      - run: |
+           mkdir ~/.aws
+           touch ~/.aws/config
+           chmod 600 ~/.aws/config
+           echo "[profile eb-cli]" > ~/.aws/config
+           echo "aws_access_key_id=$AWS_ACCESS_KEY_ID" >> ~/.aws/config
+           echo "aws_secret_access_key=$AWS_SECRET_ACCESS_KEY" >> ~/.aws/config
+      - run: eb init --region us-east-2b --platform Docker wgt
+      #- run: cp Dockerrun.aws.stg.json Dockerrun.aws.json
+      - run: eb use Wgt-env --region us-east-2b
+      - run: eb deploy -v --staged --profile eb-cli
