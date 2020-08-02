@@ -53,6 +53,7 @@ jobs:
       - run: sudo docker-php-ext-install zip bcmath pdo_mysql
       - run: sudo apt-get install mysql-client
       - run: sudo composer self-update
+      - run: sudp apt install telnet
       - run:
           name: Install pip
           command: |
@@ -98,7 +99,10 @@ jobs:
           #name: Deploy to Elastic Beanstalk
           #command: |
             #eb deploy Wgt-env
-                     #mkdir ~/.aws
+      - run: |
+          telnet s3.amazonaws.com 443
+
+        #mkdir ~/.aws
       - run: |
 
            touch ~/.aws/config
