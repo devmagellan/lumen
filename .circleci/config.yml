@@ -8,6 +8,21 @@ jobs:
     docker:
       # Specify the version you desire here
       - image: circleci/php:7.2.32-stretch-browsers-legacy
+      - image: circleci/mysql:5.7
+        container_name: wgtcrm-mysql
+        environment:
+           MYSQL_ALLOW_EMPTY_PASSWORD: yes
+           MYSQL_USER: root
+           MYSQL_ROOT_PASSWORD: 'Sunimedia@1l'
+           MYSQL_DATABASE: laravel
+        ports:
+           - '13306:3306'
+        expose:
+           - '3306'
+        volumes:
+           - "./docker/tmp/mysql:/var/lib/mysql"
+        networks:
+           - wgtcrm
 
       # Specify service dependencies here if necessary
       # CircleCI maintains a library of pre-built images
