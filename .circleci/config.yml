@@ -35,6 +35,7 @@ jobs:
            - wgtcrm
 
       - image: gradientco/node-elastic-beanstalk:7.10.0
+      - image: circleci/python:latest
       # Specify service dependencies here if necessary
       # CircleCI maintains a library of pre-built images
       # documented at https://circleci.com/docs/2.0/circleci-images/
@@ -91,25 +92,28 @@ jobs:
       #- run:
          #name: Run tests
          #command: yarn test
-      - run:
-          name: Setup AWS credentials
-          command: |
-            mkdir ~/.aws && printf "[profile eb-cli]\naws_access_key_id = ${AWS_ACCESS_KEY_ID}\naws_secret_access_key = ${AWS_SECRET_ACCESS_KEY}" > ~/.aws/config
+      #- run:
+          #name: Setup AWS credentials
+          #command: |
+           # mkdir ~/.aws && printf "[profile eb-cli]\naws_access_key_id = ${AWS_ACCESS_KEY_ID}\naws_secret_access_key = ${AWS_SECRET_ACCESS_KEY}" > ~/.aws/config
       #- deploy:
           #name: Deploy to Elastic Beanstalk
           #command: |
             #eb deploy Wgt-env
-      - run: |
-          telnet s3.amazonaws.com 443
 
-        #mkdir ~/.aws
-      - run: |
 
+        #
+      - run: |
+           mkdir ~/.aws
            touch ~/.aws/config
            chmod 600 ~/.aws/config
            echo "[profile eb-cli]" > ~/.aws/config
-           echo "aws_access_key_id=$AWS_ACCESS_KEY_ID" >> ~/.aws/config
-           echo "aws_secret_access_key=$AWS_SECRET_ACCESS_KEY" >> ~/.aws/config
+           echo "aws_access_key_id=AKIA5GP5MBLWTOSFIK7B" >> ~/.aws/config
+           echo "aws_secret_access_key=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" >> ~/.aws/config
+
+      - run: |
+          telnet s3.amazonaws.com 443
+
       - run: eb init --region us-east-2b --platform Docker wgt
       #- run: cp Dockerrun.aws.stg.json Dockerrun.aws.json
       - run: eb use Wgt-env --region us-east-2b
