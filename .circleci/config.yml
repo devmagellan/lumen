@@ -38,6 +38,9 @@ jobs:
 
       - run: sudo apt update # PHP CircleCI 2.0 Configuration File# PHP CircleCI 2.0 Configuration File sudo apt install zlib1g-dev libsqlite3-dev
       - run: sudo docker-php-ext-install zip
+      - run: sudo docker-php-ext-configure pdo_mysql --with-pdo-mysql=mysqlnd
+      - run: sudo docker-php-ext-install zip bcmath pdo_mysql
+      - run: sudo apt-get install mysql-client
 
       # Download and cache dependencies
       - restore_cache:
@@ -56,7 +59,8 @@ jobs:
 
       # prepare the database
       - run: touch storage/testing.sqlite
-      - run: php artisan migrate --env=testing --database=wgtcrm-mysql --force
+      - run: mysqladmin create test --host="127.0.0.1" --user="root" --password="Sunimedia@1l"
+      - run: php artisan migrate --env=testing --force
 
       # run tests with phpunit or codecept
       #- run: ./vendor/bin/phpunit
