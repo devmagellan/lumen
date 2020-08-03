@@ -117,4 +117,4 @@ jobs:
       - run: eb init --region us-east-2 --platform Docker wgt --profile eb-cli --debugboto
       ##- run: cp Dockerrun.aws.stg.json Dockerrun.aws.json
       - run: eb use Wgt-env --region us-east-2
-      - run: eb deploy --version Application --label Application --profile eb-cli  --staged #-v
+      - run: eb deploy --version Application --profile eb-cli  --staged #-v
