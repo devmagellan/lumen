@@ -114,7 +114,7 @@ jobs:
       #- run: |
           #telnet s3.amazonaws.com 443
 
-      - run: eb init --region us-east-2b --platform Docker wgt
+      - run: eb init --region us-east-2 --platform Docker wgt
       #- run: cp Dockerrun.aws.stg.json Dockerrun.aws.json
       - run: eb use Wgt-env --region us-east-2
       - run: eb deploy -v --staged --profile eb-cli
