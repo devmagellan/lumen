@@ -5,6 +5,6 @@ global:
   application_name: wgt
   #default_ec2_keyname: ec2-key-pair-name
   default_platform: Linux/UNIX
-  default_region: us-east-2b
+  default_region: us-east-2
   profile: eb-cli
   sc: git
