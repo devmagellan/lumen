@@ -142,7 +142,7 @@ RUN apt autoremove -y \
 #RUN chown docker:docker /usr/local/bin
 RUN chmod a+rwx -R /usr/local/bin
 # Install Composer
-RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+##RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
 
 ENV COMPOSER_ALLOW_SUPERUSER 1
@@ -166,7 +166,7 @@ COPY --chown=www-data:www-data . /var/www/html
 
 WORKDIR /var/www/html
 
-RUN composer install --prefer-source --no-interaction
+##RUN composer install --prefer-source --no-interaction
 EXPOSE 80 443
 
 ENTRYPOINT ["/etc/entrypoint.sh"]
