@@ -11,6 +11,7 @@ jobs:
       # Specify the version you desire here
       - image: circleci/php:7.2.32-stretch-browsers-legacy
         build: ./
+        container_name: wgtcrm-php
         environment:
                         # Define these information to be used later in script
            DB_CONNECTION: mysql
@@ -41,19 +42,19 @@ jobs:
         networks:
            - wgtcrm
       - image: nginx
-          container_name: wgtcrm-web
+        container_name: wgtcrm-web
 
-          ports:
-            - "10080:80"
-            - "10430:443"
-          volumes:
-            - "./docker/nginx:/etc/nginx/conf.d:ro"
-            - ".:/var/www/wgtcrm"
-          depends_on:
-            - "wgtcrm-php"
-            - "wgtcrm-mysql"
-          networks:
-            - wgtcrm
+        ports:
+          - "10080:80"
+          - "10430:443"
+        volumes:
+          - "./docker/nginx:/etc/nginx/conf.d:ro"
+          - ".:/var/www/wgtcrm"
+        depends_on:
+          - "wgtcrm-php"
+          - "wgtcrm-mysql"
+        networks:
+          - wgtcrm
       - image: gradientco/node-elastic-beanstalk:7.10.0
       - image: circleci/python:latest
       # Specify service dependencies here if necessary
