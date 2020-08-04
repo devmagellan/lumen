@@ -68,6 +68,7 @@ jobs:
 
     steps:
       - checkout
+      - setup_remote_docker
 
       - run: sudo apt update # PHP CircleCI 2.0 Configuration File# PHP CircleCI 2.0 Configuration File sudo apt install zlib1g-dev libsqlite3-dev
       - run: sudo docker-php-ext-install zip
@@ -136,6 +137,44 @@ jobs:
           #telnet s3.amazonaws.com 443
 
       - run: eb init --region us-east-2 --platform Docker wgt --profile eb-cli --debugboto
-      ##- run: cp Dockerrun.aws.stg.json Dockerrun.aws.json
       - run: eb use Wgt-env --region us-east-2
+
+
+
+      - run:
+          name: Install dependencies
+          command: |
+             apk add --no-cache \
+             py-pip=9.0.0-r1
+             pip install \
+             docker-compose==1.12.0 \
+             awscli==1.11.76
+             - restore_cache:
+                 keys:
+                   - v1-{{ .Branch }}
+                 paths:
+                   - /caches/app.tar
+      - run:
+          name: Load Docker image layer cache
+          command: |
+              set +o pipefail
+              docker load -i /caches/app.tar | true
+      - run:
+          name: Build application Docker image
+          command: |
+              docker build --cache-from=app -t app .
+      - run:
+           name: Save Docker image layer cache
+           command: |
+              mkdir -p /caches
+              docker save -o /caches/app.tar app
+      - save_cache:
+            key: v1-{{ .Branch }}-{{ epoch }}
+            paths:
+              - /caches/app.tar
+      #- run:
+          #name: Run tests
+          #command: |
+               #docker-compose -f ./docker-compose.test.yml up
+
       - run: eb deploy  -v --profile eb-cli  --staged #--version Application
