@@ -6,6 +6,7 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
 RUN apt update -yqq \
     && apt full-upgrade -y \
+    && apt-get install -y nginx \
     && pecl channel-update pecl.php.net
 
 RUN apt install --no-install-recommends -y sudo \
@@ -135,6 +136,38 @@ RUN apt autoremove -y \
     && ssh-keyscan bitbucket.org >> /home/docker/.ssh/known_hosts \
     && echo 'alias ll="ls -la --color=auto"' >> /home/docker/.bashrc
 
-COPY supervisor/local /etc/supervisor/conf.d
+#COPY /docker/supervisor/local /etc/supervisor/conf.d
 
+#USER docker
+#RUN chown docker:docker /usr/local/bin
+RUN chmod a+rwx -R /usr/local/bin
+# Install Composer
+##RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+
+
+ENV COMPOSER_ALLOW_SUPERUSER 1
+#COPY ./docker/php/supervisord.conf /etc/supervisord.conf
+#COPY /composer.json /var/www/html/composer.json
 USER docker
+COPY .. /var/www/html
+COPY ../composer.json /var/www/html/composer.json
+VOLUME /var/www/html
+WORKDIR /var/www/html
+
+
+
+# PHP_CPPFLAGS are used by the docker-php-ext-* scripts
+ENV PHP_CPPFLAGS="$PHP_CPPFLAGS -std=c++11"
+
+COPY nginx/wgtcrm.conf /etc/nginx/sites-enabled/default
+COPY entrypoint.sh /etc/entrypoint.sh
+
+COPY --chown=www-data:www-data .. /var/www/html
+
+WORKDIR /var/www/html
+
+##RUN composer install --prefer-source --no-interaction
+EXPOSE 80 443
+
+ENTRYPOINT ["/etc/entrypoint.sh"]
+
