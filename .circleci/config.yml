@@ -10,8 +10,6 @@ jobs:
     docker:
       # Specify the version you desire here
       - image: circleci/php:7.2.32-stretch-browsers-legacy
-
-        container_name: wgtcrm-php
         build: ./
         environment:
                         # Define these information to be used later in script
