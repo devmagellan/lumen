@@ -127,7 +127,7 @@ jobs:
       - checkout
       - run:
           name: Deploy over SSH
-          command: ssh -p 22 imediasun@3.132.216.23 -pSunimedia@1l "cd ../var/www/lumen; git pull; ";
+          command: sshpass -p 'Sunimedia@1l' ssh -p 22 imediasun@3.132.216.23  "cd ../var/www/lumen; git pull; ";
 
 workflows:
   version: 2
