@@ -149,8 +149,8 @@ ENV COMPOSER_ALLOW_SUPERUSER 1
 #COPY ./docker/php/supervisord.conf /etc/supervisord.conf
 #COPY /composer.json /var/www/html/composer.json
 USER docker
-COPY .. /var/www/html
-COPY ../composer.json /var/www/html/composer.json
+COPY ./ /var/www/html
+COPY composer.json /var/www/html/composer.json
 VOLUME /var/www/html
 WORKDIR /var/www/html
 
@@ -159,10 +159,10 @@ WORKDIR /var/www/html
 # PHP_CPPFLAGS are used by the docker-php-ext-* scripts
 ENV PHP_CPPFLAGS="$PHP_CPPFLAGS -std=c++11"
 
-COPY nginx/wgtcrm.conf /etc/nginx/sites-enabled/default
-COPY entrypoint.sh /etc/entrypoint.sh
+COPY docker/nginx/wgtcrm.conf /etc/nginx/sites-enabled/default
+COPY docker/entrypoint.sh /etc/entrypoint.sh
 
-COPY --chown=www-data:www-data .. /var/www/html
+COPY --chown=www-data:www-data ./ /var/www/html
 
 WORKDIR /var/www/html
 
