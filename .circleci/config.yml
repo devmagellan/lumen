@@ -129,14 +129,14 @@ jobs:
           name: Deploy over SSH
           command: ssh -p 22 imediasun@3.132.216.23 "cd ../var/www/lumen; git pull; ";
 
-  workflows:
-    version: 2
-    build-and-deploy:
-      jobs:
-        - build
-        - deploy:
-            requires:
-              - build
+workflows:
+  version: 2
+  build-and-deploy:
+    jobs:
+      - build
+      - deploy:
+          requires:
+            - build
 
 
 
