@@ -2,7 +2,7 @@
 #
 # Check https://circleci.com/docs/2.0/language-php/ for more details
 #
-version: 2
+version: 2.17
 jobs:
   build:
     working_directory: ~/build
@@ -55,7 +55,6 @@ jobs:
           - "wgtcrm-mysql"
         networks:
           - wgtcrm
-      - image: gradientco/node-elastic-beanstalk:7.10.0
       - image: circleci/python:latest
       # Specify service dependencies here if necessary
       # CircleCI maintains a library of pre-built images
@@ -82,10 +81,6 @@ jobs:
           command: |
             sudo apt update
             sudo apt install -y python-pip python-dev
-      - run:
-          name: Install AWS dependencies
-          command: |
-            sudo pip install awsebcli
       # Download and cache dependencies
       - restore_cache:
           keys:
@@ -125,20 +120,23 @@ jobs:
 
 
         ##
-      - run: |
-           mkdir ~/.aws
-           touch ~/.aws/config
-           chmod 600 ~/.aws/config
-           echo "[profile eb-cli]" > ~/.aws/config
-           echo "aws_access_key_id=AKIA5GP5MBLWTOSFIK7B" >> ~/.aws/config
-           echo "aws_secret_access_key=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" >> ~/.aws/config
+    deploy:
+      machine:
+        enabled: true
+      steps:
+        - checkout
+        - run:
+            name: Deploy over SSH
+            command: ssh -p 22 imediasun@3.132.216.23 "cd ../var/www/lumen; git pull; ";
 
-      #- run: |
-          #telnet s3.amazonaws.com 443
-
-      - run: eb init --region us-east-2 --platform Docker wgt --profile eb-cli --debugboto
-      - run: eb use Wgt-env --region us-east-2
-      - run: eb deploy  -v --profile eb-cli  --staged #--version Application
+    workflows:
+      version: 2
+      build-and-deploy:
+        jobs:
+          - build
+          - deploy:
+              requires:
+                - build
 
 
 
