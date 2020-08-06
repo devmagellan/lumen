@@ -29,9 +29,9 @@ services:
       - ".:/var/www/wgtcrm"
     networks:
       - wgtcrm
-    secrets:
-      - source: ssh_key
-        target: /home/docker/.ssh/id_rsa
+    #secrets:
+      #- source: ssh_key
+        #target: /home/docker/.ssh/id_rsa
 
   wgtcrm-mysql:
     image: mysql:5.7.30
@@ -55,6 +55,6 @@ networks:
   wgtcrm:
     name: wgtcrm
 
-secrets:
-  ssh_key:
-    file: ~/.ssh/id_rsa
+#secrets:
+  #ssh_key:
+    #file: ~/.ssh/id_rsa
