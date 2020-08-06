@@ -138,3 +138,5 @@ RUN apt autoremove -y \
 COPY supervisor/local /etc/supervisor/conf.d
 
 USER docker
+
+ENTRYPOINT ["/entrypoint.sh"]
