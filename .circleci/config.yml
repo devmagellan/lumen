@@ -18,7 +18,7 @@ jobs:
       - run: docker push devmagellan/wgtcrm-php:latest
       - run: docker push devmagellan/wgtcrm-web:latest
 
-        ##
+        ## #
   deploy:
     machine:
       enabled: true
