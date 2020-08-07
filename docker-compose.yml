@@ -10,7 +10,7 @@ services:
     restart: always
     volumes:
       - "./docker/nginx:/etc/nginx/conf.d:ro"
-      - "./ap:/var/www/wgtcrm"
+      - "./ap:/var/www/html"
     depends_on:
       - "wgtcrm-php"
     networks:
@@ -23,7 +23,7 @@ services:
     #environment:
       #APP_ENV: local
     restart: always
-    working_dir: /var/www/wgtcrm
+    working_dir: /var/www/html
     volumes:
       - "./docker/php:/usr/local/etc/php:ro"
       - "./ap:/var/www/html"

@@ -28,8 +28,8 @@ jobs:
       - run: sudo apt-get install sshpass
       - run:
           name: Deploy over SSH
-          command: sshpass -p 'sunimedia' ssh -p 22 imediasun@3.18.112.158  "cd /var/www/lumen; docker pull devmagellan/wgtcrm-php:latest; docker pull devmagellan/wgtcrm-web:latest;";
-
+          command: sshpass -p 'sunimedia' scp ./docker-destroy-all.sh imediasun@3.18.112.158:/var/www/lumen; sshpass -p 'sunimedia' ssh -p 22 imediasun@3.18.112.158  "cd /var/www/lumen; chmod +x docker-destroy-all.sh ;./docker-destroy-all.sh;docker pull devmagellan/wgtcrm-php:latest; docker pull devmagellan/wgtcrm-web:latest;docker run -p 8080:80 -i --detach  -t devmagellan/wgtcrm-web;docker run -i --detach  -t devmagellan/wgtcrm-php; ";
+#
 workflows:
   version: 2
   build-and-deploy:
