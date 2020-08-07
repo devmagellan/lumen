@@ -12,14 +12,15 @@ services:
       - "./docker/nginx/conf.d:/etc/nginx/conf.d:ro"
       #- "./docker/nginx:/etc/nginx/conf.d"
       - "./ap:/var/www/html"
-    working_dir: /var/www/html  
+    working_dir: /var/www/html
     depends_on:
       - "wgtcrm-php"
     networks:
       - wgtcrm
 
   wgtcrm-php:
-    build: ./docker
+    build:
+      context: ./docker
     container_name: wgtcrm-php
     image: devmagellan/wgtcrm-php
     #environment:
