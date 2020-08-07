@@ -6,7 +6,7 @@ jobs:
     docker:
       # using custom image, see .circleci/images/primary/Dockerfile
       - image: circleci/php:7.1.16
-    №working_directory: '~/'
+    #working_directory: '~/'
     steps:
       - checkout
       - setup_remote_docker:
