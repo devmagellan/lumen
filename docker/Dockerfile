@@ -1,6 +1,6 @@
 FROM php:7.2.24-fpm
 
-MAINTAINER Roberto Arruda <robertoarruda@gmail.com>
+MAINTAINER Andrey Lopushansky <dev.magellan@gmail.com>
 
 
 RUN apt update -yqq \
