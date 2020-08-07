@@ -19,6 +19,7 @@ services:
       - wgtcrm
 
   wgtcrm-php:
+    build: ./
     container_name: wgtcrm-php
     image: devmagellan/wgtcrm-php
     #environment:
