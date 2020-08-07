@@ -18,7 +18,7 @@ jobs:
       - run: docker login --username=devmagellan --password=Sunimedia@1l
       #- run: docker push devmagellan/wgtcrm-php:latest
       #- run: docker push devmagellan/wgtcrm-web:latest
-      - run: docker-compose push devmagellan/wgt-compose:latest
+      - run: docker-compose push devmagellan/wgt-compose
 
   ## ###
   deploy:
