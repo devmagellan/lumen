@@ -29,7 +29,7 @@ jobs:
       - run: sudo apt-get install sshpass
       - run:
           name: Deploy over SSH
-          command: sshpass -p 'sunimedia' scp ./docker-destroy-all.sh imediasun@3.18.112.158:/var/www/lumen; sshpass -p 'sunimedia' ssh -p 22 imediasun@3.18.112.158  "cd /var/www/lumen; chmod +x docker-destroy-all.sh ;./docker-destroy-all.sh; ";
+          command: sshpass -p 'sunimedia' scp ./docker-destroy-all.sh imediasun@3.18.112.158:/var/www/lumen; sshpass -p 'sunimedia' ssh -p 22 imediasun@3.18.112.158  "cd /var/www/lumen; chmod +x docker-destroy-all.sh ;./docker-destroy-all.sh;docker pull devmagellan/wgtcrm-web:latest;docker pull devmagellan/wgtcrm-php:latest; ";
 
 workflows:
   version: 2
