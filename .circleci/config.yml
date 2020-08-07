@@ -3,9 +3,10 @@ jobs:
   build:
     machine:
       enabled: true
+    working_directory: '~/'
     steps:
       - checkout
-      - working_directory: '~/'
+
       - run: sudo apt update
       - run:
           name: Install Docker Compose
