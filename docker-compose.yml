@@ -13,8 +13,8 @@ services:
       - "./ap:/var/www/wgtcrm"
     depends_on:
       - "wgtcrm-php"
-    networks:
-      - wgtcrm
+    #networks:
+      #- wgtcrm
 
   wgtcrm-php:
     build: ./docker
@@ -28,15 +28,15 @@ services:
       - "./docker/php:/usr/local/etc/php:ro"
       - "./ap:/var/www/wgtcrm"
       #- ./docker/php/php.ini:/usr/local/etc/php/conf.d/php.ini
-    networks:
-      - wgtcrm
+    #networks:
+      #- wgtcrm
     secrets:
       - source: ssh_key
         target: /home/docker/.ssh/id_rsa
 
 networks:
-  wgtcrm:
-    name: wgtcrm
+  #wgtcrm:
+    #name: wgtcrm
 
 secrets:
   ssh_key:
