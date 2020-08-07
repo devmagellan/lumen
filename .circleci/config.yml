@@ -117,8 +117,13 @@ jobs:
           #name: Deploy to Elastic Beanstalk
           #command: |
             #eb deploy Wgt-env
+            
+            #echo "Sunimedia@1l" | docker login -u devmagellan --password-stdin registry-1.docker.io
 
 
+    branches:
+      only:
+        - master
         ##
   deploy:
     machine:
@@ -139,6 +144,9 @@ workflows:
       - deploy:
           requires:
             - build
+          branches:
+            only:
+            - master
 
 
 

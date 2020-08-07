@@ -5,7 +5,7 @@ server {
     listen 80;
 
     server_name wgtcrm.winwin.docker;
-    root /var/www/wgtcrm;
+    root /var/www/wgtcrm/public;
     index index.php index.html index.htm;
 
     location / {
