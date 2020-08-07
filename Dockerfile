@@ -1,8 +1,14 @@
-FROM centos:latest
-MAINTAINER NewstarCorporation
-RUN yum -y install httpd
+FROM php:7.2.24-fpm
+
+MAINTAINER Andrey Lopushansky <dev.magellan@gmail.com>
 
 
-RUN echo 'Hello, docker' > /var/www/html/index.html
-CMD [“/usr/sbin/httpd”, “-D”, “FOREGROUND”]
-EXPOSE 80
+RUN apt update -yqq \
+    && apt full-upgrade -y \
+    && pecl channel-update pecl.php.net \
+    && apt install nano \
+
+
+COPY ./ap /var/www/html
+
+
