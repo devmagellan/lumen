@@ -14,9 +14,9 @@ jobs:
             sudo mv ~/docker-compose /usr/local/bin/docker-compose
       - run: sudo apt install gnupg2 pass
       - run: docker login --username=devmagellan --password=Sunimedia@1l
-      - run: docker-compose build
-      - run: docker push devmagellan/wgtcrm-php:latest
-      - run: docker push devmagellan/wgtcrm-web:latest
+      - run: ./docker-compose build
+      - run: ./docker push devmagellan/wgtcrm-php:latest
+      - run: ./docker push devmagellan/wgtcrm-web:latest
 
         ## ###
   deploy:
