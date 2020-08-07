@@ -12,5 +12,6 @@ fi
 # Delete all images
 images=`docker images -q -a`
 if [ -n "$images" ]; then
+        docker rmi $(docker images --filter "dangling=true" -q --no-trunc);
         docker rmi -f $images
 fi
