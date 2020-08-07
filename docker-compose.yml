@@ -9,7 +9,8 @@ services:
       - "80:80"
     restart: always
     volumes:
-      - "./docker/nginx:/etc/nginx/conf.d:ro"
+      #- "./docker/nginx:/etc/nginx/conf.d:ro"
+      - "./docker/nginx:/etc/nginx/conf.d"
       - "./ap:/var/www/html"
     depends_on:
       - "wgtcrm-php"
