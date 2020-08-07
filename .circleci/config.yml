@@ -28,7 +28,7 @@ jobs:
       - run: sudo apt-get install sshpass
       - run:
           name: Deploy over SSH
-          command: sshpass -p 'sunimedia' ssh -p 22 imediasun@3.18.112.158  "cd /var/www/lumen; docker ps -q | xargs docker stop ; docker images -q | xargs -r docker rmi; docker ps -q | xargs -r docker rm";
+          command: sshpass -p 'sunimedia' ssh -p 22 imediasun@3.18.112.158  "cd /var/www/lumen; docker ps -q | xargs docker stop -f ; docker images -q | xargs -r docker rmi; docker ps -q | xargs -r docker rm";
 
 workflows:
   version: 2
