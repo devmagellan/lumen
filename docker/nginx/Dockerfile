@@ -1,8 +1,12 @@
 FROM nginx
 RUN echo "Hello World!!"
+RUN apt update -yqq \
+    && apt full-upgrade -y \
+    && apt install nano 
 # Define mountable directories.
 VOLUME ["/etc/nginx/sites-enabled", "/etc/nginx/certs", "/etc/nginx/conf.d", "/var/log/nginx", "/var/www/html"]
 # Define working directory.
+COPY ./conf.d/default.conf  /etc/nginx/conf.d/default.conf
 WORKDIR /etc/nginx
 
 # Expose ports.
@@ -19,6 +23,8 @@ EXPOSE 443
 #RUN chmod -R 600 /etc/nginx/certs
 #EXPOSE 3030
 #EXPOSE 5555
+
+
 
 # Define default command.
 #CMD ["nginx"]

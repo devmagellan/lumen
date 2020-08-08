@@ -3,36 +3,35 @@ version: "3.7"
 services:
   wgtcrm-web:
     build: ./docker/nginx
-    image: devmagellan/wgtcrm-web
+    image: devmagellan/wgtcrm-web:latest
     container_name: wgtcrm-web
     ports:
       - "80:80"
     restart: always
     volumes:
-      - "./docker/nginx/conf.d:/etc/nginx/conf.d:ro"
+      - "./docker/nginx/conf.d:/etc/nginx/conf.d"
       #- "./docker/nginx:/etc/nginx/conf.d"
-      - "./ap:/var/www/html"
+      - "./:/var/www/html"
     working_dir: /var/www/html  
     depends_on:
       - "wgtcrm-php"
-    networks:
-      - wgtcrm
-
+     
+     
   wgtcrm-php:
-    build: ./docker
+    build: ./
     container_name: wgtcrm-php
-    image: devmagellan/wgtcrm-php
+    image: devmagellan/wgtcrm-php:latest
     #environment:
       #APP_ENV: local
     restart: always
     working_dir: /var/www/html
     volumes:
-      - "./docker/php:/usr/local/etc/php:ro"
-      - "./ap:/var/www/html"
+      - "./docker/php:/usr/local/etc/php"
+      - "./:/var/www/html"
       #- ./docker/php/php.ini:/usr/local/etc/php/conf.d/php.ini
       #/usr/local/etc/php/php.ini - real place
-    networks:
-      - wgtcrm
+    
+     
     secrets:
       - source: ssh_key
         target: /home/docker/.ssh/id_rsa
