@@ -2,60 +2,13 @@
 #
 # Check https://circleci.com/docs/2.0/language-php/ for more details
 #
-version: 2.17
+version: 2
 jobs:
   build:
-    working_directory: ~/build
-
     docker:
       # Specify the version you desire here
-      - image: circleci/php:7.2.32-stretch-browsers-legacy
-        build: ./docker
-        container_name: wgtcrm-php
-        environment:
-                        # Define these information to be used later in script
-           DB_CONNECTION: mysql
-           DB_HOST: 127.0.0.1
-           DB_PORT: 3306
-           DB_DATABASE: laravel
-           DB_USERNAME: root
-           DB_PASSWORD: Sunimedia@1l
-        volumes:
-          - "./docker/php:/usr/local/etc/php:ro"
-          - ".:/var/www/html"
-        networks:
-          - wgtcrm
+      - image: circleci/php:7.1-node-browsers
 
-      - image: circleci/mysql:5.7
-        container_name: wgtcrm-mysql
-        environment:
-           MYSQL_ALLOW_EMPTY_PASSWORD: yes
-           MYSQL_USER: root
-           MYSQL_ROOT_PASSWORD: 'Sunimedia@1l'
-           MYSQL_DATABASE: laravel
-        ports:
-           - '13306:3306'
-        expose:
-           - '3306'
-        volumes:
-           - "./docker/tmp/mysql:/var/lib/mysql"
-        networks:
-           - wgtcrm
-      - image: nginx
-        container_name: wgtcrm-web
-
-        ports:
-          - "10080:80"
-          - "10430:443"
-        volumes:
-          - "./docker/nginx:/etc/nginx/conf.d:ro"
-          - ".:/var/www/wgtcrm"
-        depends_on:
-          - "wgtcrm-php"
-          - "wgtcrm-mysql"
-        networks:
-          - wgtcrm
-      - image: circleci/python:latest
       # Specify service dependencies here if necessary
       # CircleCI maintains a library of pre-built images
       # documented at https://circleci.com/docs/2.0/circleci-images/
@@ -67,20 +20,10 @@ jobs:
 
     steps:
       - checkout
-      - setup_remote_docker
 
       - run: sudo apt update # PHP CircleCI 2.0 Configuration File# PHP CircleCI 2.0 Configuration File sudo apt install zlib1g-dev libsqlite3-dev
       - run: sudo docker-php-ext-install zip
-      - run: sudo docker-php-ext-configure pdo_mysql --with-pdo-mysql=mysqlnd
-      - run: sudo docker-php-ext-install zip bcmath pdo_mysql
-      - run: sudo apt-get install mysql-client
-      - run: sudo composer self-update
-      - run: sudo apt install telnet
-      - run:
-          name: Install pip
-          command: |
-            sudo apt update
-            sudo apt install -y python-pip python-dev
+
       # Download and cache dependencies
       - restore_cache:
           keys:
@@ -95,48 +38,21 @@ jobs:
           key: v1-dependencies-{{ checksum "composer.json" }}
           paths:
             - ./vendor
+      - restore_cache:
+          keys:
+            - node-v1-{{ checksum "package.json" }}
+            - node-v1-
+      - run: yarn install
+      - save_cache:
+          key: node-v1-{{ checksum "package.json" }}
+          paths:
+            - node_modules
 
       # prepare the database
       - run: touch storage/testing.sqlite
-      - run: mysqladmin create test --host="127.0.0.1" --user="root" --password="Sunimedia@1l"
-      - run: php artisan migrate --env=testing --force
+      - run: php artisan migrate --env=testing --database=sqlite_testing --force
 
       # run tests with phpunit or codecept
       #- run: ./vendor/bin/phpunit
-      #- run: ./vendor/bin/codecept build
-      #- run: ./vendor/bin/codecept run
-
-      #- run:
-         #name: Run tests
-         #command: yarn test
-      #- run:
-          #name: Setup AWS credentials
-          #command: |
-           # mkdir ~/.aws && printf "[profile eb-cli]\naws_access_key_id = ${AWS_ACCESS_KEY_ID}\naws_secret_access_key = ${AWS_SECRET_ACCESS_KEY}" > ~/.aws/config
-      #- deploy:
-          #name: Deploy to Elastic Beanstalk
-          #command: |
-            #eb deploy Wgt-env
-
-
-        ##
-    deploy:
-      machine:
-        enabled: true
-      steps:
-        - checkout
-        - run:
-            name: Deploy over SSH
-            command: ssh -p 22 imediasun@3.132.216.23 "cd ../var/www/lumen; git pull; ";
-
-    workflows:
-      version: 2
-      build-and-deploy:
-        jobs:
-          - build
-          - deploy:
-              requires:
-                - build
-
-
-
+      - run: ./vendor/bin/codecept build
+      - run: ./vendor/bin/codecept run
