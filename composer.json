@@ -6,6 +6,8 @@
     "type": "project",
     "require": {
         "php": "^7.2.5",
+        "deployer/deployer": "^6.8",
+        "deployer/recipes": "^6.2",
         "laravel/lumen-framework": "^7.0"
     },
     "require-dev": {
